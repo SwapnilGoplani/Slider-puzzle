@@ -13,10 +13,7 @@ const positions = {
   const tiles = document.querySelectorAll('.tile');
   
   function clickAPiece(event, tileArray) {
-    const clickedClasses = [...event.target.classList]; // what position does this have assigned?
-      // what position is not used in the array?
-      // pos1
-      // tileArray.find map/etc for position that is !.includes
+    const clickedClasses = [...event.target.classList]; 
     const allTiles = [...tiles];
     const empty = allTiles.find((tile) => tile.classList.contains('empty')).classList[1]; //gets the position of empty tile
     console.log(empty);
@@ -28,18 +25,19 @@ const positions = {
     if (move) { //if move isnt undefined, go into this loop
       (document.getElementsByClassName(move)[0].classList.remove('empty')); //removes empty from classname of tile which is empty
       (document.getElementsByClassName(clickedTile)[0].classList.add('empty')); //adds empty to classname of tile which will be empty
+      (document.getElementsByClassName(move)[0].innerText = allTiles.find((tile) => tile.classList.contains(clickedTile)).innerText); //these 2 lines change inner text
       (document.getElementsByClassName(clickedTile)[0].innerText = '');
       // eslint-disable-next-line prefer-destructuring
-      (document.getElementsByClassName(move)[0].innerText = clickedTile[3]); //these 2 lines change inner text
-    }//just have to change class names (maybe becuase something doesnt work not sure whats causing it)
-  }
-  
+    }//problem is that since its changing the inner text based on positions, once positions get scrambled the inner text gets fucked up too
+  }//SOLVED
   
   async function windowActions() {
-    console.log(tiles);
+    //console.log(tiles);
     const tileArray = [...tiles];
     console.log('tiles', tileArray);
+
     tileArray.forEach((tile) => tile.addEventListener('click', (event) => { clickAPiece(event, tileArray); }));
   }
   
-  window.onload = windowActions;
+  window.onload = windowActions; 
+  //EVERYTHING WORKING AS INTENDED. SHOW ALEX.
